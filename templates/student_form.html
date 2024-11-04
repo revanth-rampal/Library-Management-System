@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            margin-bottom: 2rem;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .container_student {
+            padding: 20px;
+            font-family: sans-serif;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="../static/images/logo_white.png" height="30" width="30" class="me-2" alt="Logo"> Student Portal
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>  
+
+    <!-- Student Profile Section -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Right Column: Profile Picture with Upload -->
+            <div class="col-md-4 text-end">
+                <!-- Profile Picture Preview -->
+                <img id="profilePreview" src="../static/images/dummy.jpg" alt="Student Photo" class="img-fluid rounded shadow mb-2">
+                <!-- Upload Image -->
+                <input type="file" class="form-control" id="profilePicture" name="profile_picture" accept="image/*" onchange="previewImage(event)">
+            </div>
+
+            <!-- Registration Form -->
+            <div class="col-md-8 container_student">
+                <form method="POST" action="/register" enctype="multipart/form-data">
+                    <h2 class="mb-3"><i class="bi bi-person-fill"></i> Register Student</h2>
+
+                    <!-- Name Fields -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="first_name" required>
+                        </div>
+                        <div class="col">
+                            <label for="middleName">Middle Name</label>
+                            <input type="text" class="form-control" id="middleName" name="middle_name" placeholder="Optional">
+                        </div>
+                        <div class="col">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="last_name" required>
+                        </div>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="mb-3">
+                        <label>Gender</label><br>
+                        <input type="radio" id="male" name="gender" value="Male" required>
+                        <label for="male">Male</label>
+                        <input type="radio" id="female" name="gender" value="Female" required>
+                        <label for="female">Female</label>
+                        <input type="radio" id="other" name="gender" value="Other" required>
+                        <label for="other">Other</label>
+                    </div>
+
+                    <!-- Student ID -->
+                    <div class="mb-3">
+                        <label for="studentID">Student ID</label>
+                        <input type="text" class="form-control" id="studentID" name="student_id" required oninput="updateCollegeEmail()">
+                    </div>
+
+                    <!-- Department -->
+                    <div class="mb-3">
+                        <label for="department">Department</label>
+                        <select class="form-control" id="department" name="department" required>
+                            <option value="" disabled selected>Select Department</option>
+                            <option value="CSE">CSE</option>
+                            <option value="ECE">ECE</option>
+                            <option value="EEE">EEE</option>
+                            <option value="MECH">MECH</option>
+                            <option value="Civil">Civil</option>
+                            <option value="Chemical">Chemical</option>
+                            <option value="MME">MME</option>
+                        </select>
+                    </div>
+
+                    <!-- Year of Engineering -->
+                    <div class="mb-3">
+                        <label for="year">Year of Engineering</label>
+                        <select class="form-control" id="year" name="year" required>
+                            <option value="" disabled selected>Select Year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="mb-3">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" class="form-control" id="dob" name="dob" required>
+                    </div>
+
+                    <!-- College Email -->
+                    <div class="mb-3">
+                        <label for="collegeEmail">College Email</label>
+                        <input type="email" class="form-control" id="collegeEmail" name="college_email" placeholder="id@sample.ac.in" readonly>
+                    </div>
+
+                    <!-- Personal Email (optional) -->
+                    <div class="mb-3">
+                        <label for="personalEmail">Personal Email (Optional)</label>
+                        <input type="email" class="form-control" id="personalEmail" name="personal_email" placeholder="your.email@example.com">
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="mb-3">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" class="form-control" id="phone" name="phone" required>
+                    </div>
+
+                    <!-- Alternative Phone Number (optional) -->
+                    <div class="mb-3">
+                        <label for="altPhone">Alternative Phone Number (Optional)</label>
+                        <input type="text" class="form-control" id="altPhone" name="alt_phone" placeholder="Optional">
+                    </div>
+
+                    <!-- Address -->
+                    <div class="mb-3">
+                        <label for="address">Address</label>
+                        <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <p>&copy; 2024 Student Portal | <a href="#" class="text-white">Privacy Policy</a></p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Preview uploaded image
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('profilePreview');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // Update College Email based on Student ID
+        function updateCollegeEmail() {
+            const studentID = document.getElementById('studentID').value;
+            const collegeEmail = document.getElementById('collegeEmail');
+            collegeEmail.value = studentID + '@sample.ac.in'; // Customize the domain as needed
+        }
+    </script>
+</body>
+</html>
